@@ -1,0 +1,25 @@
+{
+  "name": "calculator_oop",
+  "version": "1.0.0",
+  "description": "calculator in OOP styles on JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Larionov-Anton/calculator_oop.git"
+  },
+  "keywords": [
+    "HTML",
+    "CSS",
+    "JS",
+    "OOP"
+  ],
+  "author": "Larionov Anton (larionovanton05@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Larionov-Anton/calculator_oop/issues"
+  },
+  "homepage": "https://github.com/Larionov-Anton/calculator_oop#readme"
+}
