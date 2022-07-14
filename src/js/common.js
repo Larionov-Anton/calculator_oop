@@ -14,6 +14,9 @@
 
 // *Реализация
 
+// TODO: - исправить баг переполнения дисплея калькулятора
+
+
 // Переменные
 
 let a = '';
@@ -22,7 +25,7 @@ let mathSign = '';
 
 let screen = document.querySelector('.calc-screen p');
 let numbers = ['0', '1', '2','3', '4', '5','6', '7', '8', '9', '.'];
-let mathActions = ['+/-', '%', '/', 'x', '-', '+', '='];
+let mathActions = ['+/-', '%', '/', 'x', '-', '+'];
 
 // Отливливает событие нажатия на все кнопки
 
@@ -32,12 +35,50 @@ let buttons = document.querySelector('.calc-buttons').addEventListener('click', 
 // Сбросить все значения
 
 function clear() {
-			a = '';
-			b = '';
-			mathSign = '';
-			screen.textContent = '0';
+	a = '';
+	b = '';
+	mathSign = '';
+	screen.textContent = '0';
 };
 
+// Сбросить значения после вычисления
+
+function clearEqual() {
+	b = '';
+	mathSign = '';
+	screen.textContent = a;
+};
+
+
+// Математические вычисления
+
+function equal() {
+	switch (mathSign) {
+		case '+': 
+			a = (+a) + (+b);
+			clearEqual();
+			break;
+		case '-':
+			a = a - b;
+			clearEqual();
+			break;
+		case '/':
+			a = a / b;
+			clearEqual();
+			break;
+		case 'x':
+			a = a * b;
+			clearEqual();
+			break;
+		case '+/-':
+			a = -a;	
+			break;
+		case '%':
+			a = a / 100 * b;
+			clearEqual();
+			break;
+	}
+};
 
 // Основной функционал 
 
@@ -57,14 +98,21 @@ function main() {
 
 	if (mathAction) {
 		mathSign = element;
-		screen.textContent = a + ' ' + mathSign;
+		if (mathSign === '+/-') {
+			equal(); 
+		}
+		screen.textContent = a ;
 	}  else 
+
+	if (element === '=') {
+		equal();
+	} else
 
 	{
 		b += element;
-		screen.textContent = a + ' ' + mathSign + ' ' + b;
+		screen.textContent = b;
 	}
-		
+	
 
 	console.log(a, mathSign, b);
 }
