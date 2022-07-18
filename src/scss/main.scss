@@ -22,12 +22,15 @@ html {
 	align-items: end;
 	padding: 10px;
 	margin-bottom: 25px;
+	max-width: 300px;
+	overflow: hidden;
 }
 
 .calc-screen p {
 	font-size: 4rem;
 	margin: 0;
 	text-align: right;
+	max-width: 300px;
 }
 
 .calc-buttons {
