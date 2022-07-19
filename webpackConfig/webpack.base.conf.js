@@ -44,6 +44,7 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			hash: false,
 			template: `${PATHS.src}/index.html`,
+			publicPath: './',
 			minify: {
 				collapseWhitespace: false
 			}

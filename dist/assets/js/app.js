@@ -221,7 +221,8 @@ var View = /*#__PURE__*/function (_EventEmmiter) {
     _this.screen = document.querySelector('.calc-screen p');
     _this.ac = document.querySelector('.ac');
     _this.buttons = document.querySelector('.calc-buttons');
-    _this.error = false; // Отливливает событие нажатия на все кнопки
+    _this.error = false;
+    _this.firstLaunch = true; // Отливливает событие нажатия на все кнопки
 
     _this.buttons.addEventListener('click', _this.addChar.bind(view_assertThisInitialized(_this)));
 
@@ -254,7 +255,7 @@ var View = /*#__PURE__*/function (_EventEmmiter) {
   }, {
     key: "clearAll",
     value: function clearAll() {
-      this.screen.textContent = '0';
+      // this.screen.textContent = '0';
       this.screen.style.fontSize = '4rem';
       this.emit('clear');
     }
@@ -264,11 +265,19 @@ var View = /*#__PURE__*/function (_EventEmmiter) {
       if (!event.target.classList.contains('btn')) return;
       if (event.target.classList.contains('ac')) return;
       var char = event.target.textContent;
+      this.firstLaunch = false;
       this.emit('add', char, this.error);
     }
   }, {
     key: "showData",
     value: function showData(state) {
+      if (this.firstLaunch) {
+        this.screen.textContent = '0';
+        return;
+      }
+
+      ;
+
       if (state.secondNumber === '' && state.mathSign === '') {
         this.screen.textContent = state.firstNumber;
       } else if (state.finish) {
@@ -355,7 +364,7 @@ function load(data) {
 var state = load();
 var src_view = new view();
 var src_model = new model(state || {
-  firstNumber: '0',
+  firstNumber: '',
   mathSign: '',
   secondNumber: '',
   finish: false,

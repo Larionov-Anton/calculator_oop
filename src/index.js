@@ -25,7 +25,7 @@ const model = new Model(
 	state ||
 
 	{
-		firstNumber : '0',
+		firstNumber : '',
 		mathSign : '',
 		secondNumber : '',
 		finish : false,

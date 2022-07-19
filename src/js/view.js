@@ -9,6 +9,7 @@ class View extends EventEmmiter{
 		this.ac = document.querySelector('.ac');
 		this.buttons = document.querySelector('.calc-buttons');
 		this.error = false;
+		this.firstLaunch = true;
 
 		// Отливливает событие нажатия на все кнопки
 
@@ -39,7 +40,7 @@ class View extends EventEmmiter{
 	};
 
 	clearAll() {
-		this.screen.textContent = '0';
+		// this.screen.textContent = '0';
 		this.screen.style.fontSize = '4rem';
 		this.emit('clear');
 	};
@@ -49,11 +50,17 @@ class View extends EventEmmiter{
 		if(event.target.classList.contains('ac')) return;
 
 		let char = event.target.textContent;
+		this.firstLaunch = false;
 
 		this.emit('add', char, this.error);
 	};
 
 	showData(state) {
+
+			if (this.firstLaunch) {
+				this.screen.textContent = '0';
+				return;
+			};
 	
 			if (state.secondNumber === '' && state.mathSign === '') {
 				this.screen.textContent = state.firstNumber;
