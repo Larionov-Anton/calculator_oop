@@ -1,17 +1,12 @@
 // *Модель данных (взаимодействие с данными)
 
-class Model {
-	constructor() {
-		this.state = {
-			firstNumber : '',
-			mathSign : '',
-			secondNumber : '',
-			
-			finish : false,
-			error : false,
-		};
+import EventEmmiter from "./eventEmmiter";
 
-
+class Model extends EventEmmiter {
+	constructor(state) {
+		super();
+		this.state = state;
+		
 		// Служебные массивы
 		this.numbers = ['0', '1', '2','3', '4', '5','6', '7', '8', '9', '.'];
 		this.mathActions = ['+/-', '%', '/', 'x', '-', '+'];
@@ -29,13 +24,14 @@ class Model {
 			finish : false,
 			error : false,
 		};
-		console.log(this.state);
+		
+		this.emit('change', this.state);
 	};
 
 	// Добавить данные
 
 	addData(char, error) {
-			console.log(error);
+
 			this.state.error = error;
 			let number = this.numbers.includes(char);
 			let mathAction = this.mathActions.includes(char);
@@ -51,7 +47,7 @@ class Model {
 							this.state.secondNumber += char;
 						}
 		
-						console.log(this.state)
+						this.emit('change', this.state);
 						return this.state;
 					};
 		
@@ -64,7 +60,7 @@ class Model {
 							this.equal();
 						} 
 						
-						console.log(this.state)
+						this.emit('change', this.state);
 						return this.state;
 					};
 		
@@ -72,7 +68,7 @@ class Model {
 						this.state.error = false;
 						this.equal();
 
-						console.log(this.state)
+						this.emit('change', this.state);
 						return this.state;
 					};
 		

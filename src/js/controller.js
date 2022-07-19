@@ -9,6 +9,7 @@ class Controller {
 
 		view.on('add', this.addChars.bind(this));
 		view.on('clear', this.clearAll.bind(this));
+		view.showData(model.state);
 
 		// Подписаться на события представления
 	}
@@ -16,7 +17,6 @@ class Controller {
 	addChars(char, error) {
 		let state = this.model.addData(char, error);
 		this.view.showData(state);
-		// console.log(state);
 	}
 
 	clearAll() {

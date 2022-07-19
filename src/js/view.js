@@ -42,7 +42,7 @@ class View extends EventEmmiter{
 		this.screen.textContent = '0';
 		this.screen.style.fontSize = '4rem';
 		this.emit('clear');
-	}
+	};
 	
 	addChar() {
 		if(!event.target.classList.contains('btn')) return;
@@ -50,14 +50,10 @@ class View extends EventEmmiter{
 
 		let char = event.target.textContent;
 
-		
-
 		this.emit('add', char, this.error);
-	
-	}
+	};
 
 	showData(state) {
-
 	
 			if (state.secondNumber === '' && state.mathSign === '') {
 				this.screen.textContent = state.firstNumber;
@@ -73,12 +69,8 @@ class View extends EventEmmiter{
 	
 			this.screenLength(this.screen.textContent);
 
-
-		
-		
-
-		return;
+		return
 	}
-}
+};
 
 export default View; 
