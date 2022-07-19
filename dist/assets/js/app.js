@@ -2,32 +2,89 @@
 /******/ 	"use strict";
 var __webpack_exports__ = {};
 
-;// CONCATENATED MODULE: ./src/js/model.js
+;// CONCATENATED MODULE: ./src/js/eventEmmiter.js
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+var EventEmmiter = /*#__PURE__*/function () {
+  function EventEmmiter() {
+    _classCallCheck(this, EventEmmiter);
+
+    this.events = {};
+  }
+
+  _createClass(EventEmmiter, [{
+    key: "on",
+    value: function on(type, calback) {
+      this.events[type] = this.events[type] || [];
+      this.events[type].push(calback); // console.log(this.events);
+    }
+  }, {
+    key: "emit",
+    value: function emit(type, arg, arg2) {
+      if (this.events[type]) {
+        this.events[type].forEach(function (calback) {
+          return calback(arg, arg2);
+        });
+      } // console.log(this.events);
+
+    }
+  }]);
+
+  return EventEmmiter;
+}();
+
+;
+/* harmony default export */ var eventEmmiter = (EventEmmiter);
+;// CONCATENATED MODULE: ./src/js/model.js
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function model_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function model_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function model_createClass(Constructor, protoProps, staticProps) { if (protoProps) model_defineProperties(Constructor.prototype, protoProps); if (staticProps) model_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 // *Модель данных (взаимодействие с данными)
-var Model = /*#__PURE__*/function () {
-  function Model() {
-    _classCallCheck(this, Model);
 
-    this.state = {
-      firstNumber: '',
-      mathSign: '',
-      secondNumber: '',
-      finish: false,
-      error: false
-    }; // Служебные массивы
 
-    this.numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
-    this.mathActions = ['+/-', '%', '/', 'x', '-', '+'];
+var Model = /*#__PURE__*/function (_EventEmmiter) {
+  _inherits(Model, _EventEmmiter);
+
+  var _super = _createSuper(Model);
+
+  function Model(state) {
+    var _this;
+
+    model_classCallCheck(this, Model);
+
+    _this = _super.call(this);
+    _this.state = state; // Служебные массивы
+
+    _this.numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+    _this.mathActions = ['+/-', '%', '/', 'x', '-', '+'];
+    return _this;
   } // Очистить все
 
 
-  _createClass(Model, [{
+  model_createClass(Model, [{
     key: "clear",
     value: function clear() {
       this.state = {
@@ -37,13 +94,12 @@ var Model = /*#__PURE__*/function () {
         finish: false,
         error: false
       };
-      console.log(this.state);
+      this.emit('change', this.state);
     }
   }, {
     key: "addData",
     value: // Добавить данные
     function addData(char, error) {
-      console.log(error);
       this.state.error = error;
       var number = this.numbers.includes(char);
       var mathAction = this.mathActions.includes(char);
@@ -55,7 +111,7 @@ var Model = /*#__PURE__*/function () {
           this.state.secondNumber += char;
         }
 
-        console.log(this.state);
+        this.emit('change', this.state);
         return this.state;
       }
 
@@ -71,7 +127,7 @@ var Model = /*#__PURE__*/function () {
           this.equal();
         }
 
-        console.log(this.state);
+        this.emit('change', this.state);
         return this.state;
       }
 
@@ -80,7 +136,7 @@ var Model = /*#__PURE__*/function () {
       if (char === '=') {
         this.state.error = false;
         this.equal();
-        console.log(this.state);
+        this.emit('change', this.state);
         return this.state;
       }
 
@@ -123,48 +179,11 @@ var Model = /*#__PURE__*/function () {
   }]);
 
   return Model;
-}();
+}(eventEmmiter);
 
 /* harmony default export */ var model = (Model);
-;// CONCATENATED MODULE: ./src/js/eventEmmiter.js
-function eventEmmiter_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function eventEmmiter_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function eventEmmiter_createClass(Constructor, protoProps, staticProps) { if (protoProps) eventEmmiter_defineProperties(Constructor.prototype, protoProps); if (staticProps) eventEmmiter_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-var EventEmmiter = /*#__PURE__*/function () {
-  function EventEmmiter() {
-    eventEmmiter_classCallCheck(this, EventEmmiter);
-
-    this.events = {};
-  }
-
-  eventEmmiter_createClass(EventEmmiter, [{
-    key: "on",
-    value: function on(type, calback) {
-      this.events[type] = this.events[type] || [];
-      this.events[type].push(calback); // console.log(this.events);
-    }
-  }, {
-    key: "emit",
-    value: function emit(type, arg, arg2) {
-      if (this.events[type]) {
-        this.events[type].forEach(function (calback) {
-          return calback(arg, arg2);
-        });
-      } // console.log(this.events);
-
-    }
-  }]);
-
-  return EventEmmiter;
-}();
-
-;
-/* harmony default export */ var eventEmmiter = (EventEmmiter);
 ;// CONCATENATED MODULE: ./src/js/view.js
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function view_typeof(obj) { "@babel/helpers - typeof"; return view_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, view_typeof(obj); }
 
 function view_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -172,26 +191,26 @@ function view_defineProperties(target, props) { for (var i = 0; i < props.length
 
 function view_createClass(Constructor, protoProps, staticProps) { if (protoProps) view_defineProperties(Constructor.prototype, protoProps); if (staticProps) view_defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function view_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) view_setPrototypeOf(subClass, superClass); }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function view_setPrototypeOf(o, p) { view_setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return view_setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function view_createSuper(Derived) { var hasNativeReflectConstruct = view_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = view_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = view_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return view_possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function view_possibleConstructorReturn(self, call) { if (call && (view_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return view_assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function view_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function view_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function view_getPrototypeOf(o) { view_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return view_getPrototypeOf(o); }
 
  // *Представление (взаимодействие с дом)
 
 var View = /*#__PURE__*/function (_EventEmmiter) {
-  _inherits(View, _EventEmmiter);
+  view_inherits(View, _EventEmmiter);
 
-  var _super = _createSuper(View);
+  var _super = view_createSuper(View);
 
   function View() {
     var _this;
@@ -204,9 +223,9 @@ var View = /*#__PURE__*/function (_EventEmmiter) {
     _this.buttons = document.querySelector('.calc-buttons');
     _this.error = false; // Отливливает событие нажатия на все кнопки
 
-    _this.buttons.addEventListener('click', _this.addChar.bind(_assertThisInitialized(_this)));
+    _this.buttons.addEventListener('click', _this.addChar.bind(view_assertThisInitialized(_this)));
 
-    _this.ac.addEventListener('click', _this.clearAll.bind(_assertThisInitialized(_this)));
+    _this.ac.addEventListener('click', _this.clearAll.bind(view_assertThisInitialized(_this)));
 
     return _this;
   }
@@ -268,6 +287,7 @@ var View = /*#__PURE__*/function (_EventEmmiter) {
   return View;
 }(eventEmmiter);
 
+;
 /* harmony default export */ var view = (View);
 ;// CONCATENATED MODULE: ./src/js/controller.js
 function controller_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -284,14 +304,15 @@ var Controller = /*#__PURE__*/function () {
     this.model = model;
     this.view = view;
     view.on('add', this.addChars.bind(this));
-    view.on('clear', this.clearAll.bind(this)); // Подписаться на события представления
+    view.on('clear', this.clearAll.bind(this));
+    view.showData(model.state); // Подписаться на события представления
   }
 
   controller_createClass(Controller, [{
     key: "addChars",
     value: function addChars(char, error) {
       var state = this.model.addData(char, error);
-      this.view.showData(state); // console.log(state);
+      this.view.showData(state);
     }
   }, {
     key: "clearAll",
@@ -304,18 +325,45 @@ var Controller = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ var controller = (Controller);
+;// CONCATENATED MODULE: ./src/js/saveLocalStorage.js
+// Сохранение данных в Local Storage
+function save(data) {
+  var string = JSON.stringify(data);
+  localStorage.setItem('calculator', string);
+}
+
+function load(data) {
+  var string = localStorage.getItem('calculator');
+  data = JSON.parse(string);
+  return data;
+}
+
+
 ;// CONCATENATED MODULE: ./src/index.js
-// Стили
- // Логика
-// Императивный стиль
+// *Стили
+ // *Логика
+// *Императивный стиль
 // import './js/common.js';
-// ООП в патерне MVC
+// *ООП в патерне MVC
+// Основные модули
 
 
 
+ // Вспомогательные модули
 
+
+var state = load();
 var src_view = new view();
-var src_model = new model();
-var src_controller = new controller(src_model, src_view); // view.addData('9', false);
+var src_model = new model(state || {
+  firstNumber: '0',
+  mathSign: '',
+  secondNumber: '',
+  finish: false,
+  error: false
+} || undefined);
+src_model.on('change', function (state) {
+  return save(state);
+});
+var src_controller = new controller(src_model, src_view);
 /******/ })()
 ;
