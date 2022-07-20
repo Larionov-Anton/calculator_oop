@@ -9,7 +9,6 @@ class View extends EventEmmiter{
 		this.ac = document.querySelector('.ac');
 		this.buttons = document.querySelector('.calc-buttons');
 		this.error = false;
-		this.firstLaunch = true;
 
 		// Отливливает событие нажатия на все кнопки
 
@@ -57,12 +56,9 @@ class View extends EventEmmiter{
 
 	showData(state) {
 
-			if (this.firstLaunch) {
+			if (state.firstNumber === '') {
 				this.screen.textContent = '0';
-				return;
-			};
-	
-			if (state.secondNumber === '' && state.mathSign === '') {
+			} else if (state.secondNumber === '' && state.mathSign === '')  {
 				this.screen.textContent = state.firstNumber;
 			} else if (state.finish) {
 				this.screen.textContent = state.firstNumber;

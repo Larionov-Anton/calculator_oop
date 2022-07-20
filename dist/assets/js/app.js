@@ -76,7 +76,8 @@ var Model = /*#__PURE__*/function (_EventEmmiter) {
     model_classCallCheck(this, Model);
 
     _this = _super.call(this);
-    _this.state = state; // Служебные массивы
+    _this.state = state;
+    console.log(_this.state); // Служебные массивы
 
     _this.numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
     _this.mathActions = ['+/-', '%', '/', 'x', '-', '+'];
@@ -94,7 +95,6 @@ var Model = /*#__PURE__*/function (_EventEmmiter) {
         finish: false,
         error: false
       };
-      console.log(this.state);
       this.emit('change', this.state);
     }
   }, {
@@ -222,8 +222,7 @@ var View = /*#__PURE__*/function (_EventEmmiter) {
     _this.screen = document.querySelector('.calc-screen p');
     _this.ac = document.querySelector('.ac');
     _this.buttons = document.querySelector('.calc-buttons');
-    _this.error = false;
-    _this.firstLaunch = true; // Отливливает событие нажатия на все кнопки
+    _this.error = false; // Отливливает событие нажатия на все кнопки
 
     _this.buttons.addEventListener('click', _this.addChar.bind(view_assertThisInitialized(_this)));
 
@@ -272,14 +271,9 @@ var View = /*#__PURE__*/function (_EventEmmiter) {
   }, {
     key: "showData",
     value: function showData(state) {
-      if (this.firstLaunch) {
+      if (state.firstNumber === '') {
         this.screen.textContent = '0';
-        return;
-      }
-
-      ;
-
-      if (state.secondNumber === '' && state.mathSign === '') {
+      } else if (state.secondNumber === '' && state.mathSign === '') {
         this.screen.textContent = state.firstNumber;
       } else if (state.finish) {
         this.screen.textContent = state.firstNumber;
