@@ -40,7 +40,7 @@ class View extends EventEmmiter{
 	};
 
 	clearAll() {
-		// this.screen.textContent = '0';
+		this.screen.textContent = '0';
 		this.screen.style.fontSize = '4rem';
 		this.emit('clear');
 	};

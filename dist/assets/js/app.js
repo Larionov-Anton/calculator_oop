@@ -94,6 +94,7 @@ var Model = /*#__PURE__*/function (_EventEmmiter) {
         finish: false,
         error: false
       };
+      console.log(this.state);
       this.emit('change', this.state);
     }
   }, {
@@ -255,7 +256,7 @@ var View = /*#__PURE__*/function (_EventEmmiter) {
   }, {
     key: "clearAll",
     value: function clearAll() {
-      // this.screen.textContent = '0';
+      this.screen.textContent = '0';
       this.screen.style.fontSize = '4rem';
       this.emit('clear');
     }
